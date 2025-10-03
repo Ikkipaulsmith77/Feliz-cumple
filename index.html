@@ -3,22 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resident Evil 4 - Menú</title>
+  <title>Menú Especial</title>
   <style>
-    
-body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: url("1759524496351.jpg") no-repeat center center;
-  background-size: contain; /* <-- cambia cover por contain */
-  background-color: black;  /* fondo negro donde no llegue la imagen */
-  font-family: "Times New Roman", serif;
-}
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url("1759524496351.jpg") no-repeat center center;
+      background-size: cover;
+      background-color: black;
+      font-family: "Times New Roman", serif;
+    }
 
     .menu {
       text-align: center;
@@ -53,20 +52,15 @@ body {
 </head>
 <body>
   <div class="menu">
-    <div class="menu-item" id="new-game">● PARTIDA NUEVA</div>
-    <div class="menu-item">CARGAR</div>
-    <div class="menu-item">MARCADORES</div>
-    <div class="menu-item">AYUDA Y OPCIONES</div>
-    <div class="menu-item">EXTRAS</div>
+    <div class="menu-item" id="feliz">● FELIZ CUMPLEAÑOS</div>
+    <div class="menu-item">EXTRA</div>
     <div class="menu-item">CRÉDITOS</div>
-    <div class="menu-item">SALIR</div>
   </div>
 
   <script>
-    const newGame = document.getElementById("new-game");
-
-    newGame.addEventListener("click", () => {
-      newGame.classList.toggle("selected");
+    const feliz = document.getElementById("feliz");
+    feliz.addEventListener("click", () => {
+      window.location.href = "video.html"; // como está en la raíz
     });
   </script>
 </body>
