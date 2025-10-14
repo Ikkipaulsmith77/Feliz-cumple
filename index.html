@@ -1,57 +1,129 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Menú Especial</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      width: 100vw;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: url("fondo3.jpg") no-repeat center center;
-      background-size: contain;
-      background-color: black;
-      font-family: "Times New Roman", serif;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menú Especial</title>
 
-    .menu {
-      text-align: center;
-      color: #bdbdbd;
-      font-size: 28px;
-      line-height: 2.2;
-      text-shadow: 2px 2px 4px black;
-      margin-top: 150px;
-    }
-
-    .menu-item {
-      cursor: pointer;
-      transition: color 0.3s, text-shadow 0.3s;
-    }
-
-    .menu-item:hover {
-      color: #ff4d4d;
-      text-shadow: 0 0 10px #ff0000, 0 0 20px #ff4d4d;
-    }
-
-    .selected {
-      color: #ff4d4d;
-      text-shadow: 0 0 15px #ff0000, 0 0 30px #ff4d4d;
-    }
-
-    @media (max-width: 600px) {
-      .menu {
-        font-size: 18px;
-        line-height: 2;
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          serif: ['Times New Roman', 'serif'],
+        },
+        colors: {
+          'main-text': '#bdbdbd',
+          'accent-red': '#ff4d4d',
+        }
       }
     }
-  </style>
+  }
+</script>
+
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background: url("fondo3.jpg") no-repeat center center;
+    background-size: contain;
+    background-color: black;
+    font-family: "Times New Roman", serif;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .menu {
+    text-align: center;
+    color: #bdbdbd;
+    font-size: 28px;
+    line-height: 2.2;
+    text-shadow: 2px 2px 4px black;
+    margin-top: 40vh;
+    z-index: 2;
+    position: relative;
+  }
+
+  .menu-item {
+    cursor: pointer;
+    transition: color 0.3s, text-shadow 0.3s;
+  }
+
+  .menu-item:hover {
+    color: #ff4d4d;
+    text-shadow: 0 0 10px #ff0000, 0 0 20px #ff4d4d;
+  }
+
+  /* ===================== */
+  /* Globos mejorados */
+  /* ===================== */
+  .balloon-container {
+    position: absolute;
+    bottom: -150px;
+    opacity: 0.9;
+    animation: floatAndSway linear forwards;
+    pointer-events: none;
+    will-change: transform, opacity;
+    z-index: 1;
+  }
+
+  .balloon {
+    width: 50px;
+    height: 70px;
+    border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+    position: relative;
+    box-shadow: inset -5px -5px 10px rgba(0,0,0,0.3),
+                inset 5px 5px 15px rgba(255,255,255,0.4),
+                0 5px 15px rgba(0,0,0,0.4);
+  }
+
+  .balloon::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 8px;
+    height: 8px;
+    background: inherit;
+    border-radius: 0 100% 50% 100%;
+    box-shadow: inherit;
+    z-index: 1;
+  }
+
+  .balloon-string {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.7);
+    z-index: 0;
+  }
+
+  @keyframes floatAndSway {
+    0% { transform: translateY(0) scale(0.8) rotate(0deg); opacity: 0.9; }
+    50% { transform: translateY(-55vh) scale(1) rotate(2deg); opacity: 0.9; }
+    100% { transform: translateY(-130vh) scale(1.1) rotate(-2deg); opacity: 0; }
+  }
+
+  audio { display: none; }
+</style>
 </head>
+
 <body>
+  <audio id="bg-music" loop>
+    <source src="musica.mp3" type="audio/mpeg">
+  </audio>
+
   <div class="menu">
     <div class="menu-item" id="feliz">● FELIZ CUMPLEAÑOS</div>
     <div class="menu-item">EXTRA</div>
@@ -59,10 +131,64 @@
   </div>
 
   <script>
+    // --- Música oculta, inicia con primer toque ---
+    const musica = document.getElementById("bg-music");
+    let musicStarted = false;
+    function startMusic() {
+      if (!musicStarted) {
+        musica.play().catch(() => {});
+        musicStarted = true;
+      }
+    }
+    document.body.addEventListener("click", startMusic, { once: true });
+
+    // --- Navegación ---
     const feliz = document.getElementById("feliz");
     feliz.addEventListener("click", () => {
-      window.location.href = "video.html"; // como está en la raíz
+      startMusic();
+      window.location.href = "video.html";
     });
+
+    // --- Globos animados ---
+    const colors = [
+      '#ff4d4d','#ffcc00','#4dff4d','#4db8ff','#ff66ff','#ffa07a','#da70d6','#00ced1'
+    ];
+    const body = document.body;
+
+    function createBalloon() {
+      const container = document.createElement('div');
+      container.classList.add('balloon-container');
+
+      const balloon = document.createElement('div');
+      balloon.classList.add('balloon');
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      balloon.style.background = color;
+
+      const size = 40 + Math.random() * 30;
+      balloon.style.width = size + 'px';
+      balloon.style.height = size * 1.4 + 'px';
+
+      const string = document.createElement('div');
+      string.classList.add('balloon-string');
+      string.style.height = 40 + Math.random() * 40 + 'px';
+
+      container.appendChild(balloon);
+      container.appendChild(string);
+
+      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+      const left = Math.random() * (vw - size - 20) + 10;
+      container.style.left = left + 'px';
+
+      const duration = 8 + Math.random() * 7;
+      const delay = Math.random() * 2;
+      container.style.animationDuration = duration + 's';
+      container.style.animationDelay = delay + 's';
+
+      body.appendChild(container);
+      container.addEventListener('animationend', () => container.remove());
+    }
+
+    setInterval(createBalloon, 500);
   </script>
 </body>
 </html>
