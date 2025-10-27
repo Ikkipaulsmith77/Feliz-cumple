@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrusel de Imágenes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: white;
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 500px;
+        }
+        
+        .carousel-item {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .carousel-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .carousel-caption h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 15px;
+        }
+        
+        .carousel-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        .carousel-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .indicator.active {
+            background: white;
+            transform: scale(1.2);
+        }
+        
+        .auto-play-control {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .auto-play-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .auto-play-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .back-button {
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .carousel {
+                height: 400px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .carousel {
+                height: 300px;
+            }
+            
+            .carousel-caption h3 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Galería de Imágenes</h1>
+        <p class="subtitle">Desliza para explorar nuestras mejores fotografías</p>
+        
+        <div class="carousel-container">
+            <div class="carousel">
+                <div class="carousel-item">
+                    <img src="1.jpg" alt="Imagen 1">
+                    <div class="carousel-caption">
+                        <h3>Paisaje Montañoso</h3>
+                        <p>Hermosa vista de las montañas al atardecer</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="2.jpg" alt="Imagen 2">
+                    <div class="carousel-caption">
+                        <h3>Playa Tropical</h3>
+                        <p>Arenas blancas y aguas cristalinas</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="3.jpg" alt="Imagen 3">
+                    <div class="carousel-caption">
+                        <h3>Bosque Encantado</h3>
+                        <p>Senderos misteriosos entre árboles centenarios</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="4.jpg" alt="Imagen 4">
+                    <div class="carousel-caption">
+                        <h3>Ciudad Nocturna</h3>
+                        <p>El brillo de la ciudad bajo las estrellas</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="5.png" alt="Imagen 5">
+                    <div class="carousel-caption">
+                        <h3>Desierto Infinito</h3>
+                        <p>Dunas doradas bajo el sol del mediodía</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="6.jpg" alt="Imagen 6">
+                    <div class="carousel-caption">
+                        <h3>Cascada Natural</h3>
+                        <p>Agua cayendo entre rocas milenarias</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="carousel-controls">
+            <button class="carousel-btn prev-btn">&#10094;</button>
+            <button class="carousel-btn next-btn">&#10095;</button>
+        </div>
+        
+        <div class="carousel-indicators">
+            <!-- Los indicadores se generarán con JavaScript -->
+        </div>
+        
+        <div class="auto-play-control">
+            <button class="auto-play-toggle">Pausar Autoplay</button>
+        </div>
+        
+        <button class="back-button" onclick="goBack()">
+            <span>&#8592;</span> Volver al Menú
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const carousel = document.querySelector('.carousel');
+            const items = document.querySelectorAll('.carousel-item');
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+            const indicatorsContainer = document.querySelector('.carousel-indicators');
+            const autoPlayToggle = document.querySelector('.auto-play-toggle');
+            
+            let currentIndex = 0;
+            let autoPlayInterval;
+            let isAutoPlaying = true;
+            
+            // Crear indicadores
+            items.forEach((_, index) => {
+                const indicator = document.createElement('div');
+                indicator.classList.add('indicator');
+                if (index === 0) indicator.classList.add('active');
+                indicator.addEventListener('click', () => goToSlide(index));
+                indicatorsContainer.appendChild(indicator);
+            });
+            
+            const indicators = document.querySelectorAll('.indicator');
+            
+            // Función para ir a una diapositiva específica
+            function goToSlide(index) {
+                currentIndex = index;
+                updateCarousel();
+            }
+            
+            // Función para actualizar el carrusel
+            function updateCarousel() {
+                carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+                
+                // Actualizar indicadores
+                indicators.forEach((indicator, index) => {
+                    indicator.classList.toggle('active', index === currentIndex);
+                });
+            }
+            
+            // Función para siguiente diapositiva
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % items.length;
+                updateCarousel();
+            }
+            
+            // Función para diapositiva anterior
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + items.length) % items.length;
+                updateCarousel();
+            }
+            
+            // Event listeners para botones
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+            
+            // Autoplay
+            function startAutoPlay() {
+                autoPlayInterval = setInterval(nextSlide, 4000);
+            }
+            
+            function stopAutoPlay() {
+                clearInterval(autoPlayInterval);
+            }
+            
+            // Iniciar autoplay
+            startAutoPlay();
+            
+            // Control de autoplay
+            autoPlayToggle.addEventListener('click', function() {
+                isAutoPlaying = !isAutoPlaying;
+                if (isAutoPlaying) {
+                    startAutoPlay();
+                    this.textContent = 'Pausar Autoplay';
+                } else {
+                    stopAutoPlay();
+                    this.textContent = 'Reanudar Autoplay';
+                }
+            });
+            
+            // Pausar autoplay al interactuar con el carrusel
+            carousel.addEventListener('mouseenter', stopAutoPlay);
+            carousel.addEventListener('mouseleave', () => {
+                if (isAutoPlaying) startAutoPlay();
+            });
+            
+            // Navegación con teclado
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight') nextSlide();
+                if (e.key === 'ArrowLeft') prevSlide();
+            });
+            
+            // Función para volver al menú
+            window.goBack = function() {
+                window.location.href = 'index.html';
+            };
+        });
+    </script>
+</body>
+</html>
